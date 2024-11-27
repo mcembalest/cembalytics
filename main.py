@@ -21,33 +21,40 @@ def get_ollama_data():
         name = model.find('span', attrs={'x-test-search-response-title': True}).text
         pulls = parse_number(model.find('span', attrs={'x-test-pull-count': True}).text)
         models_data.append({'name': name, 'pulls': pulls})
-    return sorted(models_data, key=lambda x: x['pulls'], reverse=True)[:20]
+    return sorted(models_data, key=lambda x: x['pulls'])[-20:]
 
 @rt("/")
 def get():
-    models = get_ollama_data()
+    ollama_models = get_ollama_data()
     
     plot_data = json.dumps({
         "data": [{
-            "x": [model['pulls'] for model in models][::-1],
-            "y": [model['name'] for model in models][::-1],
+            "x": [model['pulls'] for model in ollama_models],
+            "y": [model['name'] for model in ollama_models],
             "type": "bar",
             "orientation": "h"
         }],
         "layout": {
-            "title": "Ollama",
-            "titlefont": {"size": 20},
+            "title": "Ollama Model Downloads",
+            "titlefont": {"size": 30},
             "height": 700,
-            "margin": {"l": 150, "r": 20, "t": 40, "b": 50},
-            "showlegend": False,
+            "margin": {"l": 180, "r": 20, "t": 60, "b": 50},
             "plot_bgcolor": "white",
-            "xaxis": {"title": "Downloads", "titlefont": {"size": 18}},
-            "yaxis": {"title": "Model", "titlefont": {"size": 18}}
+            "xaxis": {"title": "Downloads", "titlefont": {"size": 22}},
+            "yaxis": {
+                "title": "Model", 
+                "titlefont": {"size": 22},
+                "tickfont": {"size": 16}
+            }
         }
     })
 
-    return Titled("Cembalytics", 
-                 Div(id="plotDiv"),
-                 Script(f"Plotly.newPlot('plotDiv', {plot_data}.data, {plot_data}.layout);"))
+    return Titled(
+        "Cembalytics", 
+        Div(id="plotDiv"),
+        Script(
+            f"Plotly.newPlot('plotDiv', {plot_data}.data, {plot_data}.layout);"
+        )
+    )
 
 serve()
