@@ -28,7 +28,7 @@ def get_ollama_data(model_type=None):
 def plotly_format_data(data, title):
     plot_layout = {
         "title": title,
-        "titlefont": {"size": 30},
+        "titlefont": {"size": 15},
         "height": 700,
         "margin": {"l": 250, "r": 20, "t": 60, "b": 70},
         "plot_bgcolor": "white",
@@ -88,8 +88,8 @@ def get():
     ollama_models = get_ollama_data()
     ollama_embedding_models = get_ollama_data(model_type='embedding')
     
-    plot_data = plotly_format_data(ollama_models, "Model Downloads on Ollama")
-    embedding_plot_data = plotly_format_data(ollama_embedding_models, "Embedding Model Downloads on Ollama")
+    plot_data = plotly_format_data(ollama_models, "Ollama Model Downloads")
+    embedding_plot_data = plotly_format_data(ollama_embedding_models, "Ollama Embedding Model Downloads")
 
     return Titled(
         "Cembalytics",
