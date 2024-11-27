@@ -28,19 +28,19 @@ def get_ollama_data(model_type=None):
 def plotly_format_data(data, title):
     plot_layout = {
         "title": title,
-        "titlefont": {"size": 15},
+        "titlefont": {"size": 22},
         "height": 700,
         "margin": {"l": 250, "r": 20, "t": 60, "b": 70},
         "plot_bgcolor": "white",
         "xaxis": {
             "standoff": 10,
             "title": "Downloads", 
-            "titlefont": {"size": 22}
+            "titlefont": {"size": 18}
         },
         "yaxis": {
             "standoff": 10,
             "title": "Model", 
-            "titlefont": {"size": 22},
+            "titlefont": {"size": 18},
             "tickfont": {"size": 16}
         },
         "dragmode": False,
@@ -96,7 +96,7 @@ def get():
         Script('document.querySelector("meta[name=viewport]").setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0");'),
         Div(
             P("My name is ", A("Max Cembalest", href="https://x.com/maxcembalest"), " and I'm interested in what's going on with open source AI & LLMs."),
-            P("This is a ", A("FastHTML", href="https://fastht.ml/"), " web application I built to visualize real-time stats of downloads from various model providers."),
+            P("This is a ", A("FastHTML", href="https://fastht.ml/"), " web application I built to visualize real-time stats of model downloads."),
             P(
                 "This chart shows current model download counts from ", A("ollama", href="https://ollama.com"), ":",
                 cls="description"
