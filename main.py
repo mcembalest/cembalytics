@@ -46,6 +46,7 @@ def get():
                 "titlefont": {"size": 22},
                 "tickfont": {"size": 16}
             }
+            "dragmode": False
         }
     })
 
@@ -53,7 +54,7 @@ def get():
         "Cembalytics", 
         Div(id="plotDiv"),
         Script(
-            f"Plotly.newPlot('plotDiv', {plot_data}.data, {plot_data}.layout);"
+            f"Plotly.newPlot('plotDiv', {plot_data}.data, {plot_data}.layout, {{displayModeBar: false}});"
         )
     )
 
