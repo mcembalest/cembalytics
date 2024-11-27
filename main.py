@@ -33,7 +33,7 @@ def plotly_format_data(data, title):
         "margin": {"l": 250, "r": 20, "t": 60, "b": 70},
         "plot_bgcolor": "white",
         "xaxis": {
-            "standoff": 2,
+            "standoff": 10,
             "title": "Downloads", 
             "titlefont": {"size": 22}
         },
@@ -43,7 +43,9 @@ def plotly_format_data(data, title):
             "titlefont": {"size": 22},
             "tickfont": {"size": 16}
         },
-        "dragmode": False
+        "dragmode": False,
+        "autosize": True,
+        "responsive": True
     }
     return json.dumps({
         "data": [{
@@ -52,12 +54,31 @@ def plotly_format_data(data, title):
             "type": "bar",
             "orientation": "h"
         }],
-        "layout": plot_layout
+        "layout": plot_layout,
+        "config": {
+            "responsive": True,
+            "displayModeBar": False,
+            "width": None,
+            "height": None
+        }
     })
 
 def plotly_in_fasthtml(div_id, plot_data):
     return Script(
-        f"Plotly.newPlot('{div_id}', {plot_data}.data, {plot_data}.layout, {{displayModeBar: false}});"
+        f"""
+        var d = {plot_data};
+        var config = {{
+            displayModeBar: false,
+            responsive: true,
+            useResizeHandler: true
+        }};
+        Plotly.newPlot('{div_id}', d.data, d.layout, config);
+        
+        // Add resize handler
+        window.addEventListener('resize', function() {{
+            Plotly.Plots.resize('{div_id}');
+        }});
+        """
     )
 
 app, rt = fast_app(hdrs=(Script(src="https://cdn.plot.ly/plotly-2.32.0.min.js"),))
@@ -67,11 +88,12 @@ def get():
     ollama_models = get_ollama_data()
     ollama_embedding_models = get_ollama_data(model_type='embedding')
     
-    plot_data = plotly_format_data(ollama_models, "Models Downloads on Ollama")
+    plot_data = plotly_format_data(ollama_models, "Model Downloads on Ollama")
     embedding_plot_data = plotly_format_data(ollama_embedding_models, "Embedding Model Downloads on Ollama")
 
     return Titled(
         "Cembalytics",
+        Script('document.querySelector("meta[name=viewport]").setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0");'),
         Div(
             P("My name is ", A("Max Cembalest", href="https://x.com/maxcembalest"), " and I'm interested in what's going on with open source AI & LLMs."),
             P("This is a ", A("FastHTML", href="https://fastht.ml/"), " web application I built to visualize real-time stats of downloads from various model providers."),
