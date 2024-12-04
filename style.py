@@ -11,7 +11,7 @@ custom_style = Style("""
         /* Colors */
         --primary-color: #266c43;
         --primary-dark: #1e5434;
-        --text-color: #1a202c;
+        --text-color: #000000;
         
         /* Background pattern - Hexagonal tessellation */
         background-color: var(--primary-color);
@@ -52,6 +52,11 @@ custom_style = Style("""
         transition: all 0.3s ease;
         font-weight: 500;
         border-bottom: 1px solid transparent;
+    }
+                     
+    p {
+        --text-color: #000000;        
+        color: var(--text-color);         
     }
 
     a:hover {
