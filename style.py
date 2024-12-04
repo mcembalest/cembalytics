@@ -1,19 +1,21 @@
 from fasthtml.common import Style, Script
 
 custom_style = Style("""
+    * {
+        --text-color: #000000;        
+        color: var(--text-color);         
+    }
+                     
     body {
-        /* Base styles */
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         line-height: 1.7;
         margin: 0 auto;
         padding: 4rem;
         
-        /* Colors */
+        /* Background pattern tessellation */
         --primary-color: #266c43;
         --primary-dark: #1e5434;
-        --text-color: #000000;
         
-        /* Background pattern - Hexagonal tessellation */
         background-color: var(--primary-color);
         background-image: 
             linear-gradient(30deg, var(--primary-dark) 12%, transparent 12.5%, transparent 87%, var(--primary-dark) 87.5%, var(--primary-dark)),
@@ -25,9 +27,7 @@ custom_style = Style("""
         background-size: 80px 140px;
         background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
         background-repeat: repeat;
-        
-        /* Text */
-        color: var(--text-color);
+
     }
 
     .container {
@@ -40,23 +40,16 @@ custom_style = Style("""
     }
 
     h1, h2 {
-        color: #1a365d;
         margin-bottom: 2rem;
         font-weight: 400;
         letter-spacing: -0.025em;
     }
 
     a {
-        color: #3182ce;
         text-decoration: none;
         transition: all 0.3s ease;
         font-weight: 500;
         border-bottom: 1px solid transparent;
-    }
-                     
-    p {
-        --text-color: #000000;        
-        color: var(--text-color);         
     }
 
     a:hover {
